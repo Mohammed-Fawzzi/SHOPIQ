@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useContext, Suspense, lazy } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 import { UserContext } from "./Context/UserContext";
 import { Offline, Online } from "react-detect-offline";
 import Loading from "./Components/Loading/Loading";
@@ -68,7 +72,7 @@ function App() {
     };
   }, []);
 
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "",
       element: (
@@ -205,11 +209,7 @@ function App() {
         },
         {
           path: "*",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <NotFound />
-            </Suspense>
-          ),
+          element: <NotFound />,
         },
       ],
     },
