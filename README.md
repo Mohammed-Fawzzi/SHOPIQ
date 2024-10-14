@@ -1,4 +1,4 @@
-# SHOPIQ
+# SHOPIQ [e-commerce]
 
 SHOPIQ: is a comprehensive e-commerce platform that allows you to browse products, search for any item, and register accounts. The site uses a real API to provide rich content and display product data professionally. It features a sleek and customizable user interface with support for essential features such as login and registration using Local Storage.
 
