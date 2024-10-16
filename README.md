@@ -21,6 +21,8 @@ SHOPIQ: is a comprehensive e-commerce platform that allows you to browse product
 - React
 - Bootstrap
 - Font Awesome
+- Formik
+- YUP
 - Context API
 - React Router DOM
 - Axios
