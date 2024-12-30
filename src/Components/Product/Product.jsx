@@ -25,7 +25,7 @@ export default function Product({ product }) {
               src={product.imageCover}
               alt={product.title}
               className="w-100 mb-3"
-              height={250}
+              height={300}
               loading="lazy"
             />
             <span className="text-main fw-bold">{product.category.name}</span>

@@ -22,7 +22,7 @@ export default function Register() {
       if (data.message === "success") {
         setMessage("");
         setisLoading(false);
-        navigate("/Login");
+        navigate("/ConfirmAccount");
       }
     } catch (error) {
       setMessage(error.response.data.message);

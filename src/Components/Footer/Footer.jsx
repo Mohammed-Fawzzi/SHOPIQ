@@ -11,34 +11,34 @@ export default function Footer() {
             Get connected with us on social networks:
           </h5>
           <div className="me-md-4 pb-3">
-            <a
-              href="https://www.linkedin.com/in/mohamed-fawzzi-72b962280/"
+            <Link
+              to="https://www.linkedin.com/in/mohamed-fawzzi98/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="fa-brands fa-linkedin fs-5 ps-4 cursor-pointer"></i>
-            </a>
-            <a
-              href="https://github.com/Mohammed-Fawzzi"
+            </Link>
+            <Link
+              to="https://github.com/Mohammed-Fawzzi"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="fa-brands fa-github fs-5 ps-4 cursor-pointer"></i>
-            </a>
-            <a
-              href="https://www.facebook.com/mofawzzi14/"
+            </Link>
+            <Link
+              to="https://www.facebook.com/mofawzzi14/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="fa-brands fa-facebook-f fs-5 ps-4 cursor-pointer"></i>
-            </a>
-            <a
-              href="https://x.com/muhammed_fawzzi"
+            </Link>
+            <Link
+              to="https://x.com/muhammed_fawzzi"
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="fa-brands fa-x-twitter fs-5 ps-4 cursor-pointer"></i>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -70,14 +70,14 @@ export default function Footer() {
         <div className="text-center">
           <p className="text-center pt-3 footer-rights">
             © All Rights Reserved{" "}
-            <a
-              href="tel:+20121580334"
+            <Link
+              to="tel:+20121580334"
               rel="noopener noreferrer"
               target="_blank"
               className="fw-bold text-decoration-none text-main"
             >
               Mohamed Fawzzi.
-            </a>
+            </Link>
           </p>
         </div>
       </div>
