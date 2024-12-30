@@ -1,6 +1,7 @@
 import React from "react";
 import Paypal from "../../assets/paypal.webp";
 import Visa from "../../assets/master-card.webp";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
