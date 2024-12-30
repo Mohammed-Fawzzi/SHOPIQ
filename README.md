@@ -45,4 +45,4 @@ SHOPIQ: is a comprehensive e-commerce platform that allows you to browse product
 
 ## Live Demo
 
-Check out the live demo [here](https://your-demo-link.com).
+Check out the live demo [here](https://mohammed-fawzzi.github.io/SHOPIQ/).
