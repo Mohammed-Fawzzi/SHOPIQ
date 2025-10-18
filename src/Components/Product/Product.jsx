@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { addToCart, useCartProducts } from "../../UseCart";
-import { getWishList, useWishList } from "../../useWishList";
+import { addToCart, useCartProducts } from "../../hooks/UseCart";
+import { getWishList, useWishList } from "../../hooks/useWishList";
 
 export default function Product({ product }) {
   // Add To Cart

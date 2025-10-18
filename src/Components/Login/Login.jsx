@@ -33,6 +33,9 @@ export default function Login() {
         setMessage("");
         setIsLoading(false);
         navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       }
     } catch (error) {
       setMessage(error.response.data.message);
@@ -70,80 +73,104 @@ export default function Login() {
       </Helmet>
 
       {/* Content */}
-      <div className="container py-5 my-5">
-        <h3 className="text-main mt-3 fw-bold">Login</h3>
-        <div className="row">
-          <div className="col-md-12">
-            {message ? (
-              <p className="alert alert-danger p-2 my-2">{message}</p>
-            ) : (
-              ""
-            )}
-            <form onSubmit={formik.handleSubmit}>
-              <div className="my-3">
-                <label htmlFor="email">Email :</label>
-                <input
-                  type="email"
-                  className="form-control w-100 my-2"
-                  id="email"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.errors.email && formik.touched.email ? (
-                  <div className="alert alert-danger p-2">
-                    {formik.errors.email}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
+      <div className="container d-flex justify-content-center align-items-center py-5 my-5">
+        <div
+          className="bg-white p-4 rounded-4 shadow-lg mt-5 w-100"
+          style={{ maxWidth: "500px" }}
+        >
+          <h3 className="text-main fw-bold mb-4 text-center">
+            <i className="fa-solid fa-right-to-bracket me-2"></i>Login
+          </h3>
 
-              <div className="mb-3">
-                <label htmlFor="password">Password :</label>
-                <input
-                  type="password"
-                  className="form-control w-100 my-2"
-                  id="password"
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {formik.errors.password && formik.touched.password ? (
-                  <div className="alert alert-danger p-2">
-                    {formik.errors.password}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
+          {message && (
+            <p className="alert alert-danger text-center py-2">{message}</p>
+          )}
 
-              <div className="d-flex justify-content-between">
-                <Link className="mt-1 fw-bold" to={`/forgetPassword`}>
-                  Forget your password ?
-                </Link>
-                <button
-                  className="btn bg-main d-block text-white ms-auto"
-                  type="submit"
-                  disabled={!(formik.isValid && formik.dirty)}
+          <form onSubmit={formik.handleSubmit}>
+            {/* Email */}
+            <div className="mb-3">
+              <label htmlFor="email" className="fw-semibold">
+                Email Address
+              </label>
+              <input
+                type="email"
+                className="form-control mt-2"
+                id="email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter your email"
+              />
+              {formik.errors.email && formik.touched.email && (
+                <div className="alert alert-danger p-2 mt-2">
+                  {formik.errors.email}
+                </div>
+              )}
+            </div>
+
+            {/* Password */}
+            <div className="mb-3">
+              <label htmlFor="password" className="fw-semibold">
+                Password
+              </label>
+              <input
+                type="password"
+                className="form-control mt-2"
+                id="password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter your password"
+              />
+              {formik.errors.password && formik.touched.password && (
+                <div className="alert alert-danger p-2 mt-2">
+                  {formik.errors.password}
+                </div>
+              )}
+            </div>
+
+            {/* Buttons */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <Link
+                className="fw-bold text-decoration-none"
+                to="/forgetPassword"
+              >
+                Forgot Password?
+              </Link>
+              <button
+                className="btn bg-main text-white px-4"
+                type="submit"
+                disabled={!(formik.isValid && formik.dirty)}
+              >
+                {isLoading ? (
+                  <Bars
+                    height="20"
+                    width="50"
+                    color="#fff"
+                    ariaLabel="bars-loading"
+                    visible={true}
+                  />
+                ) : (
+                  "Login"
+                )}
+              </button>
+            </div>
+
+            {/* Register Link */}
+            <div className="text-center mt-4">
+              <p className="mb-0">
+                Don’t have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-main fw-bold text-decoration-none"
                 >
-                  {isLoading ? (
-                    <Bars
-                      height="20"
-                      width="50"
-                      color="#fff"
-                      ariaLabel="bars-loading"
-                      visible={true}
-                    />
-                  ) : (
-                    "Login"
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
+                  Register
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </>

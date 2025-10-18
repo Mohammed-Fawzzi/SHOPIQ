@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Loading from "../Loading/Loading";
-import { getFeaturedProducts, useProducts } from "../../useProducts";
+import { getFeaturedProducts, useProducts } from "../../hooks/useProducts";
 import Product from "../Product/Product";
 import { Helmet } from "react-helmet";
 import { MagnifyingGlass } from "react-loader-spinner";

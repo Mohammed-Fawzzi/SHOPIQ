@@ -6,8 +6,8 @@ import {
   removeWishListProduct,
   useWishList,
   useWishListOperators,
-} from "../../useWishList";
-import { addToCart, useCartProducts } from "../../UseCart";
+} from "../../hooks/useWishList";
+import { addToCart, useCartProducts } from "../../hooks/UseCart";
 import image from "../../assets/empty_wishlist.webp";
 
 export default function WishList() {

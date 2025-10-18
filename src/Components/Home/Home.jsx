@@ -1,5 +1,5 @@
 import React from "react";
-import { getFeaturedProducts, useProducts } from "../../useProducts";
+import { getFeaturedProducts, useProducts } from "../../hooks/useProducts";
 import Loading from "../Loading/Loading";
 import Product from "../Product/Product";
 import CategorySlider from "../CategorySlider/CategorySlider";

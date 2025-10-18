@@ -8,7 +8,7 @@ import {
   updateCart,
   useCartOperators,
   useCartProducts,
-} from "../../UseCart";
+} from "../../hooks/UseCart";
 import { Helmet } from "react-helmet";
 import Image1 from "../../assets/empty-cart.webp";
 
@@ -18,7 +18,6 @@ export default function Cart() {
     "LoggedProduct",
     getLoggedUserCart
   );
-  console.log(data);
 
   // Remove Product From Cart
   let { mutate } = useCartProducts(removeFromCart);
@@ -246,7 +245,9 @@ export default function Cart() {
           </>
         ) : (
           <>
-            <h3 className="text-main pt-3 text-start fw-bold">Your cart is empty</h3>
+            <h3 className="text-main pt-3 text-start fw-bold">
+              Your cart is empty
+            </h3>
             <div className="d-flex flex-column align-items-center">
               <img
                 src={Image1}
