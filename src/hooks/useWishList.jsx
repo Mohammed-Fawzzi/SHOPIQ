@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // Base url And Token
 const baseUrl = `https://ecommerce.routemisr.com/api/v1`;
-  const token = localStorage.getItem("userToken");
+const token = localStorage.getItem("userToken");
 
 // Post Wish List Data
 export function getWishList(productId) {
@@ -25,7 +25,7 @@ export function getWishList(productId) {
 export function getLoggedWishList() {
   const token = localStorage.getItem("userToken");
   if (!token) {
-    return Promise.reject(new Error("User not logged in"));
+    return Promise.resolve([]);
   }
   return axios.get(`${baseUrl}/wishlist`, {
     headers: {

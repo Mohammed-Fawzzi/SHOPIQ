@@ -25,7 +25,7 @@ export function addToCart(productId) {
 export function getLoggedUserCart() {
   const token = localStorage.getItem("userToken");
   if (!token) {
-    return Promise.reject(new Error("User not logged in"));
+    return Promise.resolve([]);
   }
   return axios.get(`${baseUrl}/cart`, { headers: { token } });
 }

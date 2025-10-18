@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useContext, Suspense, lazy } from "react";
-import {
-  createBrowserRouter,
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React, { useState, useEffect, useContext, lazy, Suspense } from "react";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { UserContext } from "./Context/UserContext";
 import { Offline, Online } from "react-detect-offline";
-import Loading from "./Components/Loading/Loading";
 
-// Lazy Loading
+// Layout
 const Layout = lazy(() => import("./Components/Layout/Layout"));
+
+// Auth Components
+const Register = lazy(() => import("./Components/Auth/Register"));
+const Login = lazy(() => import("./Components/Auth/Login"));
+const ForgetPassword = lazy(() => import("./Components/Auth/ForgetPassword"));
+const VerifyCode = lazy(() => import("./Components/Auth/VerifyCode"));
+const ResetPassword = lazy(() => import("./Components/Auth/ResetPassword"));
+
+// Landing Pages
 const Home = lazy(() => import("./Components/Home/Home"));
 const Products = lazy(() => import("./Components/Products/Products"));
 const ProductDetails = lazy(() =>
@@ -19,21 +23,16 @@ const Categories = lazy(() => import("./Components/Categories/Categories"));
 const Brands = lazy(() => import("./Components/Brands/Brands"));
 const WishList = lazy(() => import("./Components/WishList/WishList"));
 const Cart = lazy(() => import("./Components/Cart/Cart"));
-const Register = lazy(() => import("./Components/Register/Register"));
-const Login = lazy(() => import("./Components/Login/Login"));
 const UserProfile = lazy(() => import("./Components/UserProfile/UserProfile"));
-const AllOrders = lazy(() => import("./Components/AllOrders/AllOrders"));
-const ForgetPassword = lazy(() =>
-  import("./Components/ForgetPassword/ForgetPassword")
-);
-const VerifyCode = lazy(() => import("./Components/VerifyCode/VerifyCode"));
-const ResetPassword = lazy(() =>
-  import("./Components/ResetPassword/ResetPassword")
-);
-const NotFound = lazy(() => import("./Components/NotFound/NotFound"));
 const ProtectedRoute = lazy(() =>
   import("./Components/ProtectedRoute/ProtectedRoute")
 );
+
+// Not Found
+const NotFound = lazy(() => import("./Components/NotFound/NotFound"));
+
+// Loading Component
+const Loading = lazy(() => import("./Components/Loading/Loading"));
 
 function App() {
   const { setUserToken, setIsLogin } = useContext(UserContext);
@@ -75,149 +74,80 @@ function App() {
   const routes = createHashRouter([
     {
       path: "",
-      element: (
-        <Suspense fallback={<Loading />}>
-          <Layout />
-        </Suspense>
-      ),
+      element: <Layout />,
       children: [
         {
           index: true,
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
           ),
         },
         {
           path: "products",
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <Products />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
           ),
         },
         {
           path: "ProductDetails/:id",
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <ProductDetails />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <ProductDetails />
+            </ProtectedRoute>
           ),
         },
         {
           path: "categories",
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <Categories />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <Categories />
+            </ProtectedRoute>
           ),
         },
         {
           path: "brands",
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <Brands />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <Brands />
+            </ProtectedRoute>
           ),
         },
         {
           path: "wishlist",
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <WishList />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <WishList />
+            </ProtectedRoute>
           ),
         },
         {
           path: "cart",
           element: (
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
           ),
         },
-        {
-          path: "register",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <Register />
-            </Suspense>
-          ),
-        },
-        {
-          path: "login",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <Login />
-            </Suspense>
-          ),
-        },
-        {
-          path: "forgetPassword",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <ForgetPassword />
-            </Suspense>
-          ),
-        },
-        {
-          path: "verifyCode",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <VerifyCode />
-            </Suspense>
-          ),
-        },
-        {
-          path: "resetPassword",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <ResetPassword />
-            </Suspense>
-          ),
-        },
-        {
-          path: "userProfile",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <UserProfile />
-            </Suspense>
-          ),
-        },
-        {
-          path: "allorders",
-          element: (
-            <Suspense fallback={<Loading />}>
-              <AllOrders />
-            </Suspense>
-          ),
-        },
-        {
-          path: "*",
-          element: <NotFound />,
-        },
+        { path: "register", element: <Register /> },
+        { path: "login", element: <Login /> },
+        { path: "forgetPassword", element: <ForgetPassword /> },
+        { path: "verifyCode", element: <VerifyCode /> },
+        { path: "resetPassword", element: <ResetPassword /> },
+        { path: "userProfile", element: <UserProfile /> },
+        { path: "*", element: <NotFound /> },
       ],
     },
   ]);
 
   return (
     <>
-      <RouterProvider router={routes} />
+      <Suspense fallback={<Loading />}>
+        <RouterProvider router={routes} />
+      </Suspense>
       {showNetworkStatus && (
         <div className="network-mood">
           {isOnline ? (
