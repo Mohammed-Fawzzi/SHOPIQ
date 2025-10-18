@@ -12,7 +12,7 @@ export default function Product({ product }) {
 
   return (
     <>
-      <div key={product._id} className="col-md-3">
+      <div key={product._id} className="col-md-4">
         <div className="product cursor-pointer p-3">
           <i
             className="fa-regular fa-heart fa-2x product-heart text-main"

@@ -9,11 +9,9 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 export default function VerifyCode() {
-  // Navigate To go to Reset Code
   const navigate = useNavigate();
-  // Check If is Loading
   const [isLoading, setIsLoading] = useState(false);
-  // Forget Password
+
   function getResetCode(values) {
     setIsLoading(true);
     return axios.post(
@@ -22,7 +20,6 @@ export default function VerifyCode() {
     );
   }
 
-  // Send Email
   let { mutate } = useMutation(getResetCode, {
     onSuccess: (data) => {
       toast.success(data?.data?.status);
@@ -39,7 +36,6 @@ export default function VerifyCode() {
     resetCode: Yup.string().required("Reset code is required"),
   });
 
-  // Formik
   let formik = useFormik({
     initialValues: {
       resetCode: "",
@@ -59,48 +55,60 @@ export default function VerifyCode() {
       </Helmet>
 
       {/* Content */}
-      <div className="container my-5 py-5">
-        <h3 className="mt-3 text-main fw-bold">Verify Code :</h3>
-        <form onSubmit={formik.handleSubmit} className="py-5">
-          <label className="py-2" htmlFor="resetCode">
-            Enter your verification Code :
-          </label>
-          <input
-            className="form-control mt-2"
-            type="text"
-            id="resetCode"
-            placeholder="Verification Code"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.resetCode}
-            name="resetCode"
-          />
-          {formik.errors.resetCode && formik.touched.resetCode ? (
-            <div className="alert alert-danger p-2 mt-3">
-              {formik.errors.resetCode}
-            </div>
-          ) : (
-            ""
-          )}
-          <button
-            disabled={!(formik.isValid && formik.dirty)}
-            type="submit"
-            className="btn bg-main text-white mt-3"
-          >
-            {" "}
-            {isLoading ? (
-              <Bars
-                height="25"
-                width="50"
-                color="#fff"
-                ariaLabel="bars-loading"
-                visible={true}
+      <div className="container d-flex justify-content-center align-items-center py-5 my-5">
+        <div
+          className="bg-white p-4 rounded-4 shadow-lg mt-5 w-100"
+          style={{ maxWidth: "500px" }}
+        >
+          <h3 className="text-main fw-bold mb-4 text-center">
+            <i className="fa-solid fa-shield-check me-2"></i>Verify Code
+          </h3>
+
+          <form onSubmit={formik.handleSubmit}>
+            {/* Reset Code */}
+            <div className="mb-3">
+              <label htmlFor="resetCode" className="fw-semibold">
+                Enter your verification code
+              </label>
+              <input
+                type="text"
+                className="form-control mt-2"
+                id="resetCode"
+                name="resetCode"
+                placeholder="Verification Code"
+                value={formik.values.resetCode}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-            ) : (
-              "Verify"
-            )}
-          </button>
-        </form>
+              {formik.errors.resetCode && formik.touched.resetCode && (
+                <div className="alert alert-danger p-2 mt-2">
+                  {formik.errors.resetCode}
+                </div>
+              )}
+            </div>
+
+            {/* Buttons */}
+            <div className="d-flex justify-content-center mb-3">
+              <button
+                type="submit"
+                className="btn bg-main text-white px-4"
+                disabled={!(formik.isValid && formik.dirty)}
+              >
+                {isLoading ? (
+                  <Bars
+                    height="20"
+                    width="50"
+                    color="#fff"
+                    ariaLabel="bars-loading"
+                    visible={true}
+                  />
+                ) : (
+                  "Verify"
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

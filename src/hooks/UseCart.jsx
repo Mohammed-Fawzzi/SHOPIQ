@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // Base url And Token
 const baseUrl = `https://ecommerce.routemisr.com/api/v1`;
+const token = localStorage.getItem("userToken");
 
 // Add Cart Data
 export function addToCart(productId) {

@@ -9,11 +9,9 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 export default function ResetPassword() {
-  // Navigate To go to Reset Code
   const navigate = useNavigate();
-  // Check If is Loading
   const [isLoading, setIsLoading] = useState(false);
-  // Forget Password
+
   function getResetPassword(values) {
     setIsLoading(true);
     return axios.put(
@@ -22,7 +20,6 @@ export default function ResetPassword() {
     );
   }
 
-  // Send Email
   let { mutate } = useMutation(getResetPassword, {
     onSuccess: () => {
       toast.success("Success , login and enjoy");
@@ -45,7 +42,6 @@ export default function ResetPassword() {
       .required("Password is required"),
   });
 
-  // Formik
   let formik = useFormik({
     initialValues: {
       email: "",
@@ -59,75 +55,87 @@ export default function ResetPassword() {
 
   return (
     <>
-      {/* Helmet */}
       <Helmet>
         <meta charSet="utf-8" />
         <title>Reset Password</title>
       </Helmet>
 
-      {/* Content */}
-      <div className="container my-5 py-5">
-        <h3 className="mt-3 text-main fw-bold">Reset Password :</h3>
-        <form onSubmit={formik.handleSubmit} className="py-3">
-          <label className="py-2" htmlFor="resetCode">
-            Email :
-          </label>
-          <input
-            className="form-control mb-3"
-            type="text"
-            placeholder="Enter your email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            name="email"
-          />
-          {formik.errors.email && formik.touched.email ? (
-            <div className="alert alert-danger p-2 mt-3">
-              {formik.errors.email}
-            </div>
-          ) : (
-            ""
-          )}
+      <div className="container d-flex justify-content-center align-items-center py-5 my-5">
+        <div
+          className="bg-white p-4 rounded-4 shadow-lg mt-5 w-100"
+          style={{ maxWidth: "500px" }}
+        >
+          <h3 className="text-main fw-bold mb-4 text-center">
+            <i className="fa-solid fa-lock me-2"></i>Reset Password
+          </h3>
 
-          <label className="pb-2" htmlFor="resetCode">
-            New password :
-          </label>
-          <input
-            className="w-100 mb-3 form-control"
-            type="password"
-            placeholder="Enter new password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.newPassword}
-            name="newPassword"
-          />
-          {formik.errors.newPassword && formik.touched.newPassword ? (
-            <div className="alert alert-danger p-2">
-              {formik.errors.newPassword}
-            </div>
-          ) : (
-            ""
-          )}
-
-          <button
-            disabled={!(formik.isValid && formik.dirty)}
-            type="submit"
-            className="btn bg-main text-white mt-3"
-          >
-            {" "}
-            {isLoading ? (
-              <Bars
-                height="25"
-                width="50"
-                color="#fff"
-                ariaLabel="bars-loading"
-                visible={true}
+          <form onSubmit={formik.handleSubmit}>
+            {/* Email */}
+            <div className="mb-3">
+              <label htmlFor="email" className="fw-semibold">
+                Email
+              </label>
+              <input
+                type="email"
+                className="form-control mt-2"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
-            ) : (
-              "Reset Password"
-            )}
-          </button>
-        </form>
+              {formik.errors.email && formik.touched.email && (
+                <div className="alert alert-danger p-2 mt-2">
+                  {formik.errors.email}
+                </div>
+              )}
+            </div>
+
+            {/* New Password */}
+            <div className="mb-3">
+              <label htmlFor="newPassword" className="fw-semibold">
+                New Password
+              </label>
+              <input
+                type="password"
+                className="form-control mt-2"
+                id="newPassword"
+                name="newPassword"
+                placeholder="Enter new password"
+                value={formik.values.newPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.newPassword && formik.touched.newPassword && (
+                <div className="alert alert-danger p-2 mt-2">
+                  {formik.errors.newPassword}
+                </div>
+              )}
+            </div>
+
+            {/* Buttons */}
+            <div className="d-flex justify-content-center mb-3">
+              <button
+                type="submit"
+                className="btn bg-main text-white px-4"
+                disabled={!(formik.isValid && formik.dirty) || isLoading}
+              >
+                {isLoading ? (
+                  <Bars
+                    height="20"
+                    width="50"
+                    color="#fff"
+                    ariaLabel="bars-loading"
+                    visible={true}
+                  />
+                ) : (
+                  "Reset Password"
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import {
 } from "../../hooks/UseCart";
 import { Helmet } from "react-helmet";
 import Image1 from "../../assets/empty-cart.webp";
+import { Bars } from "react-loader-spinner";
 
 export default function Cart() {
   // Display Data In Cart
@@ -28,9 +29,16 @@ export default function Cart() {
   // Update Cart Count
   let { mutate: updatedMutate } = useCartProducts(updateCart);
 
-  //
-  let { mutate: checkOutMutate, data: checkOutData } =
-    useCartProducts(checkOut);
+  // Check out
+  let { mutate: checkOutMutate, isLoading: checkOutLoading } = useCartProducts(
+    (data) =>
+      checkOut(data).then((res) => {
+        if (res.data.status === "success") {
+          window.location.href = res.data.session.url;
+        }
+        return res;
+      })
+  );
 
   // Shipping Address
   const [details, setDetails] = useState("");
@@ -40,15 +48,12 @@ export default function Cart() {
   // Get Shipping Address
   function getShippingAddress(eventInfo) {
     eventInfo.preventDefault();
-    let shippingAddress = {
-      details,
-      phone,
-      city,
-    };
-    checkOutMutate({ productId: data?.data?.data?._id, shippingAddress });
-    if (checkOutData?.data?.status === "success") {
-      window.location.href = checkOutData?.data?.session.url;
-    }
+
+    let shippingAddress = { details, phone, city };
+    checkOutMutate({
+      productId: data?.data?.data?._id,
+      shippingAddress,
+    });
   }
 
   // Check on Loading
@@ -205,6 +210,7 @@ export default function Cart() {
                         type="text"
                         id="name"
                         placeholder="Enter your name"
+                        required
                         onChange={(e) => setDetails(e.target.value)}
                         className="form-control rounded-0"
                       />
@@ -216,6 +222,7 @@ export default function Cart() {
                         type="text"
                         id="phone"
                         placeholder="Enter you phone number"
+                        required
                         onChange={(e) => setPhone(e.target.value)}
                         className="form-control rounded-0"
                       />
@@ -227,15 +234,29 @@ export default function Cart() {
                         type="text"
                         id="city"
                         placeholder="Enter your city"
+                        required
                         onChange={(e) => setCity(e.target.value)}
                         className="form-control rounded-0"
                       />
 
                       <button
-                        className="btn btn-outline-primary mt-3 px-5 py-1 rounded-0"
+                        className="btn bg-main text-white px-4 rounded-0 mt-3"
                         type="submit"
+                        disabled={
+                          !details || !phone || !city || checkOutLoading
+                        }
                       >
-                        Send
+                        {checkOutLoading ? (
+                          <Bars
+                            height="20"
+                            width="50"
+                            color="#fff"
+                            ariaLabel="bars-loading"
+                            visible={true}
+                          />
+                        ) : (
+                          "Send"
+                        )}
                       </button>
                     </form>
                   </div>

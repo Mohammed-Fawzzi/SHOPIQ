@@ -159,12 +159,12 @@ export default function Login() {
             </div>
 
             {/* Register Link */}
-            <div className="text-center mt-4">
+            <div className="mt-2 text-center">
               <p className="mb-0">
                 Don’t have an account?{" "}
                 <Link
                   to="/register"
-                  className="text-main fw-bold text-decoration-none"
+                  className="text-primary fw-bold text-decoration-none"
                 >
                   Register
                 </Link>

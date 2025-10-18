@@ -281,12 +281,6 @@ span.cart {
   color: var(--main-color);
 }
 
-/* Toaster */
-.custom-toaster {
-  font-size: 12px;
-  font-weight: bold;
-}
-
 /* Slider */
 .slick-slide>div {
   display: flex;

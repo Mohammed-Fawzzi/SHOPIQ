@@ -13,7 +13,10 @@ export default function UserProfile() {
       </Helmet>
 
       <div className="container d-flex justify-content-center align-items-center py-5 mt-5">
-        <div className="card shadow-sm border-0 rounded-4 p-4 pt-5 mt-4 w-100" style={{ maxWidth: "500px" }}>
+        <div
+          className="card shadow-sm border-0 rounded-4 p-4 pt-5 mt-4 w-100"
+          style={{ maxWidth: "500px" }}
+        >
           <div className="text-center mb-2">
             <div
               className="rounded-circle bg-light d-flex justify-content-center align-items-center mx-auto mb-3"
@@ -37,7 +40,7 @@ export default function UserProfile() {
 
             <div className="d-flex justify-content-between py-2">
               <span className="fw-semibold text-secondary">Status:</span>
-              <span className="badge bg-success px-3 py-2">Active</span>
+              <span className="badge bg-primary px-3 py-2">Active</span>
             </div>
           </div>
         </div>
