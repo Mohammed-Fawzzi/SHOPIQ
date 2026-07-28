@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Loading from "@/components/common/ui/Loading";
+import ShippingAddressForm from "@/components/Cart/ShippingAddressForm";
 import {
   checkOut,
   clearCart,
@@ -11,57 +12,49 @@ import {
 } from "@/hooks/useCart";
 import { Helmet } from "react-helmet";
 import Image1 from "@/assets/empty-cart.webp";
-import { Bars } from "react-loader-spinner";
+import { useFormik } from "formik";
+import { shippingSchema } from "@/validations/cart/shippingSchema";
 
 export default function Cart() {
-  // Display Data In Cart
   let { data, isLoading, isError } = useCartOperators(
     "LoggedProduct",
     getLoggedUserCart
   );
 
-  // Remove Product From Cart
   let { mutate } = useCartProducts(removeFromCart);
-
-  // Clear Cart
   let { mutate: Clear } = useCartProducts(clearCart);
-
-  // Update Cart Count
   let { mutate: updatedMutate } = useCartProducts(updateCart);
 
-  // Check out
   let { mutate: checkOutMutate, isLoading: checkOutLoading } = useCartProducts(
-    (data) =>
-      checkOut(data).then((res) => {
+    (payload) =>
+      checkOut(payload).then((res) => {
         if (res.data.status === "success") {
+          sessionStorage.setItem("showPaymentSuccess", "1");
           window.location.href = res.data.session.url;
         }
         return res;
       })
   );
 
-  // Shipping Address
-  const [details, setDetails] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      details: "",
+      phone: "",
+      city: "",
+    },
+    validationSchema: shippingSchema,
+    onSubmit: (values) => {
+      checkOutMutate({
+        productId: data?.data?.data?._id,
+        shippingAddress: values,
+      });
+    },
+  });
 
-  // Get Shipping Address
-  function getShippingAddress(eventInfo) {
-    eventInfo.preventDefault();
-
-    let shippingAddress = { details, phone, city };
-    checkOutMutate({
-      productId: data?.data?.data?._id,
-      shippingAddress,
-    });
-  }
-
-  // Check on Loading
   if (isLoading) {
     return <Loading />;
   }
 
-  // Check on Error
   if (isError)
     return (
       <div className="text-center my-4">
@@ -72,13 +65,11 @@ export default function Cart() {
 
   return (
     <>
-      {/* Helmet */}
       <Helmet>
         <meta charSet="utf-8" />
         <title>Cart</title>
       </Helmet>
 
-      {/* Content */}
       <div className="container my-5 pt-5">
         {data?.data?.numOfCartItems ? (
           <>
@@ -202,63 +193,10 @@ export default function Cart() {
                     ></button>
                   </div>
                   <div className="modal-body">
-                    <form onSubmit={getShippingAddress}>
-                      <label htmlFor="name" className="mb-1">
-                        Name :
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your name"
-                        required
-                        onChange={(e) => setDetails(e.target.value)}
-                        className="form-control rounded-0"
-                      />
-
-                      <label htmlFor="phone" className="mt-2 mb-1">
-                        Phone :
-                      </label>
-                      <input
-                        type="text"
-                        id="phone"
-                        placeholder="Enter you phone number"
-                        required
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="form-control rounded-0"
-                      />
-
-                      <label htmlFor="city" className="mt-2 mb-1">
-                        City :
-                      </label>
-                      <input
-                        type="text"
-                        id="city"
-                        placeholder="Enter your city"
-                        required
-                        onChange={(e) => setCity(e.target.value)}
-                        className="form-control rounded-0"
-                      />
-
-                      <button
-                        className="btn bg-main text-white px-4 rounded-0 mt-3"
-                        type="submit"
-                        disabled={
-                          !details || !phone || !city || checkOutLoading
-                        }
-                      >
-                        {checkOutLoading ? (
-                          <Bars
-                            height="20"
-                            width="50"
-                            color="#fff"
-                            ariaLabel="bars-loading"
-                            visible={true}
-                          />
-                        ) : (
-                          "Send"
-                        )}
-                      </button>
-                    </form>
+                    <ShippingAddressForm
+                      formik={formik}
+                      isLoading={checkOutLoading}
+                    />
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "@/assets/logo.webp";
 import { UserContext } from "@/context/UserContext";
@@ -6,23 +6,47 @@ import { getLoggedUserCart, useCartOperators } from "@/hooks/useCart";
 import { getLoggedWishList, useWishListOperators } from "@/hooks/useWishList";
 import { navLinks, authLinks, userMenuLinks } from "@/constants/navbar";
 
+function clearBootstrapLocks() {
+  document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
+  document.body.classList.remove("modal-open");
+  document.body.style.removeProperty("overflow");
+  document.body.style.removeProperty("padding-right");
+  document.querySelectorAll("[inert]").forEach((el) => el.removeAttribute("inert"));
+}
+
 export default function Navbar() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
-  // Call Context To Display Link
   const { userToken, setUserToken, isLogin } = useContext(UserContext);
 
-  // Display Number Of Cart
   let { data } = useCartOperators("LoggedProduct", getLoggedUserCart);
 
-  // Display In Wish List
   let { data: wishListData } = useWishListOperators(
     "wishlist",
     getLoggedWishList
   );
 
-  // Log-Out
+  useEffect(() => {
+    clearBootstrapLocks();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
   function logOut() {
+    setMenuOpen(false);
     setUserToken(null);
     localStorage.clear();
     navigate("/Login");
@@ -71,7 +95,7 @@ export default function Navbar() {
                 <Link className="nav-link toggle" to="/wishList">
                   <i className="fa-solid fa-heart cursor-pointer fs-4"></i>
                   <span className="heart text-center text-white d-flex justify-content-center align-items-center position-absolute rounded-1">
-                    {wishListData?.data?.count}
+                    {wishListData?.data?.count ?? 0}
                   </span>
                 </Link>
               </li>
@@ -84,18 +108,18 @@ export default function Navbar() {
                 <Link className="nav-link toggle" to="/cart">
                   <i className="fa-solid fa-cart-shopping cursor-pointer fs-4"></i>
                   <span className="cart text-center text-white d-flex justify-content-center align-items-center position-absolute rounded-1">
-                    {data?.data?.numOfCartItems}
+                    {data?.data?.numOfCartItems ?? 0}
                   </span>
                 </Link>
               </li>
               {userToken ? (
-                <li className="nav-item dropdown">
-                  <span
+                <li className="nav-item dropdown" ref={menuRef}>
+                  <button
+                    type="button"
                     className="nav-link dropdown-toggle d-flex align-items-center border rounded-3 px-3 py-2 bg-white"
                     id="userDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                    aria-expanded={menuOpen}
+                    onClick={() => setMenuOpen((prev) => !prev)}
                     style={{
                       cursor: "pointer",
                       borderColor: "#dee2e6",
@@ -104,16 +128,22 @@ export default function Navbar() {
                   >
                     <i className="fa-regular fa-user fs-6 me-2 text-primary"></i>
                     Hi {isLogin}
-                  </span>
+                  </button>
 
                   <ul
-                    className="dropdown-menu dropdown-menu-end shadow-sm rounded-2 mt-2 py-0"
+                    className={`dropdown-menu dropdown-menu-end shadow-sm rounded-2 mt-2 py-0${
+                      menuOpen ? " show" : ""
+                    }`}
                     aria-labelledby="userDropdown"
                     style={{ minWidth: "180px" }}
                   >
                     {userMenuLinks.map((link) => (
                       <li key={link.path}>
-                        <NavLink className={link.className} to={link.path}>
+                        <NavLink
+                          className={link.className}
+                          to={link.path}
+                          onClick={() => setMenuOpen(false)}
+                        >
                           <i className={link.icon}></i>
                           {link.label}
                         </NavLink>
@@ -121,13 +151,14 @@ export default function Navbar() {
                     ))}
 
                     <li>
-                      <span
+                      <button
+                        type="button"
                         className="dropdown-item d-flex align-items-center cursor-pointer text-danger fw-semibold py-2"
                         onClick={logOut}
                       >
-                        <i className="fa-solid fa-arrow-right-from-bracket me-2"></i>{" "}
+                        <i className="fa-solid fa-arrow-right-from-bracket fa-flip-horizontal me-2"></i>{" "}
                         Log Out
-                      </span>
+                      </button>
                     </li>
                   </ul>
                 </li>
@@ -147,7 +178,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Modal */}
       <div
         className="modal fade modal-fade"
         id="exampleModal"
@@ -159,7 +189,7 @@ export default function Navbar() {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Oops
+                Notice
               </h5>
               <button
                 type="button"
@@ -169,7 +199,7 @@ export default function Navbar() {
               ></button>
             </div>
             <div className="modal-body">
-              <p className="mt-2">Please login first</p>
+              <p className="mt-2 mb-0">Please login first</p>
             </div>
           </div>
         </div>

@@ -1,24 +1,49 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { addToCart, useCartProducts } from "@/hooks/useCart";
-import { getWishList, useWishList } from "@/hooks/useWishList";
+import {
+  getLoggedWishList,
+  getWishList,
+  removeWishListProduct,
+  useWishList,
+  useWishListOperators,
+} from "@/hooks/useWishList";
 
 export default function Product({ product }) {
-  // Add To Cart
   let { mutate } = useCartProducts(addToCart);
+  let { mutate: addWishList } = useWishList(getWishList);
+  let { mutate: removeWishList } = useWishList(removeWishListProduct);
+  let { data: wishListData } = useWishListOperators(
+    "wishlist",
+    getLoggedWishList
+  );
 
-  // Add To Wish List
-  let { mutate: wishListMutate } = useWishList(getWishList);
+  const wishListItems = wishListData?.data?.data || [];
+  const isInWishList = wishListItems.some(
+    (item) => item._id === product._id || item.id === product._id
+  );
+
+  function toggleWishList() {
+    if (isInWishList) {
+      removeWishList(product._id);
+    } else {
+      addWishList(product._id);
+    }
+  }
 
   return (
     <>
       <div key={product._id} className="col-md-4">
         <div className="product cursor-pointer p-3">
           <i
-            className="fa-regular fa-heart fa-2x product-heart text-main"
-            onClick={() => {
-              wishListMutate(product._id);
-            }}
+            className={`fa-heart fa-2x product-heart ${
+              isInWishList
+                ? "fa-solid is-active"
+                : "fa-regular text-main"
+            }`}
+            onClick={toggleWishList}
+            role="button"
+            aria-label={isInWishList ? "Remove from wishlist" : "Add to wishlist"}
           ></i>
           <Link to={`/productDetails/${product._id}`}>
             <img

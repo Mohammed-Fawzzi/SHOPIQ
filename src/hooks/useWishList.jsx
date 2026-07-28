@@ -2,11 +2,13 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-// Base url And Token
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
-const token = localStorage.getItem("userToken");
 
-// Post Wish List Data
+function getToken() {
+  return localStorage.getItem("userToken");
+}
+
+// Add product to wishlist
 export function getWishList(productId) {
   return axios.post(
     `${baseUrl}/wishlist`,
@@ -15,7 +17,7 @@ export function getWishList(productId) {
     },
     {
       headers: {
-        token: token,
+        token: getToken(),
       },
     }
   );
@@ -23,13 +25,13 @@ export function getWishList(productId) {
 
 // Get logged user wishlist
 export function getLoggedWishList() {
-  const token = localStorage.getItem("userToken");
+  const token = getToken();
   if (!token) {
     return Promise.resolve([]);
   }
   return axios.get(`${baseUrl}/wishlist`, {
     headers: {
-      token: token,
+      token,
     },
   });
 }
@@ -38,7 +40,7 @@ export function getLoggedWishList() {
 export function removeWishListProduct(productId) {
   return axios.delete(`${baseUrl}/wishlist/${productId}`, {
     headers: {
-      token: token,
+      token: getToken(),
     },
   });
 }
@@ -51,7 +53,6 @@ export function useWishList(Function) {
     {
       onSuccess: (data) => {
         toast.success(data?.data?.message);
-        // Invalidate and refetch - [Follow Query Key]
         queryClient.invalidateQueries("wishlist");
       },
     },

@@ -18,4 +18,11 @@ export const userMenuLinks = [
     className:
       "dropdown-item d-flex align-items-center text-primary fw-semibold py-2",
   },
+  {
+    label: "Orders",
+    path: "/allorders",
+    icon: "fa-solid fa-box me-2 text-primary",
+    className:
+      "dropdown-item d-flex align-items-center text-primary fw-semibold py-2",
+  },
 ];

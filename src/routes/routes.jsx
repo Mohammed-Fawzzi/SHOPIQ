@@ -9,6 +9,7 @@ import {
   Brands,
   WishList,
   Cart,
+  AllOrders,
   UserProfile,
   ProtectedRoute,
   NotFound,
@@ -77,6 +78,14 @@ export const router = createHashRouter([
         element: (
           <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "allorders",
+        element: (
+          <ProtectedRoute>
+            <AllOrders />
           </ProtectedRoute>
         ),
       },

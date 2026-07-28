@@ -16,6 +16,7 @@ export const Categories = React.lazy(() =>
 export const Brands = React.lazy(() => import("@/pages/Brands/Brands"));
 export const WishList = React.lazy(() => import("@/pages/WishList/WishList"));
 export const Cart = React.lazy(() => import("@/pages/Cart/Cart"));
+export const AllOrders = React.lazy(() => import("@/pages/AllOrders/AllOrders"));
 export const UserProfile = React.lazy(() =>
   import("@/pages/UserProfile/UserProfile")
 );

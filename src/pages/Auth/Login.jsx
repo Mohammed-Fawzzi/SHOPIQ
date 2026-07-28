@@ -6,6 +6,7 @@ import { UserContext } from "@/context/UserContext";
 import { api } from "@/api/axiosInstance";
 import { loginSchema } from "@/validations/auth/loginSchema";
 import LoginForm from "@/components/Auth/LoginForm";
+import LoginIllustration from "@/components/Auth/LoginIllustration";
 
 export default function Login() {
   const { setUserToken, setUserData } = useContext(UserContext);
@@ -54,27 +55,36 @@ export default function Login() {
         <title>Login</title>
       </Helmet>
 
-      <div className="container d-flex justify-content-center align-items-center py-5 my-5">
-        <div
-          className="bg-white p-4 rounded-4 shadow-lg mt-5 w-100"
-          style={{ maxWidth: "500px" }}
-        >
-          <h3 className="text-main fw-bold mb-4 text-center">
-            <i className="fa-solid fa-right-to-bracket me-2"></i>Login
-          </h3>
+      <section className="auth-page">
+        <div className="container">
+          <div className="row align-items-stretch justify-content-center g-4">
+            <div className="col-lg-6 d-none d-lg-flex">
+              <div className="auth-illustration-wrap">
+                <LoginIllustration />
+              </div>
+            </div>
 
-          {message && (
-            <p className="alert alert-danger text-center py-2">{message}</p>
-          )}
+            <div className="col-lg-5 col-md-8">
+              <div className="bg-white p-4 p-md-5 rounded-4 shadow-sm auth-card w-100 h-100">
+                <h3 className="text-main fw-bold mb-4 text-center">
+                  <i className="fa-solid fa-right-to-bracket me-2"></i>Login
+                </h3>
 
-          <LoginForm
-            formik={formik}
-            isLoading={isLoading}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-          />
+                {message && (
+                  <p className="alert alert-danger text-center py-2">{message}</p>
+                )}
+
+                <LoginForm
+                  formik={formik}
+                  isLoading={isLoading}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

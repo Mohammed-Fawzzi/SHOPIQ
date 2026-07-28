@@ -65,6 +65,7 @@ export function updateCart({ productId, count }) {
 
 //checkout
 export function checkOut({ productId, shippingAddress }) {
+  const token = localStorage.getItem("userToken");
   return axios.post(
     `${baseUrl}/orders/checkout-session/${productId}?url=${checkoutUrl}`,
     { shippingAddress },

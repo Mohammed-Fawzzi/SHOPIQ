@@ -2,7 +2,7 @@ import React from "react";
 import Paypal from "@/assets/paypal.webp";
 import Visa from "@/assets/master-card.webp";
 import { Link } from "react-router-dom";
-import { socialLinks, footerContact } from "@/constants/footer";
+import { footerSocials, footerContact } from "@/constants/footer";
 
 export default function Footer() {
   return (
@@ -12,16 +12,17 @@ export default function Footer() {
           <h5 className="pb-3 mb-2 mb-md-0 text-main fw-bold">
             Get connected with us on social networks:
           </h5>
-          <div className="me-md-4 pb-3">
-            {socialLinks.map((link) => (
+          <div className="me-md-4 pb-3 footer-socials">
+            {footerSocials.map((link) => (
               <Link
-                key={link.path}
-                to={link.path}
+                key={link.id}
+                to={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={link.label}
+                className={link.className}
+                aria-label={link.className}
               >
-                <i className={link.icon}></i>
+                <i className={`${link.icon} fs-5 ps-4 cursor-pointer`}></i>
               </Link>
             ))}
           </div>
@@ -55,14 +56,14 @@ export default function Footer() {
         <div className="text-center">
           <p className="text-center pt-3 footer-rights">
             © All Rights Reserved{" "}
-            <Link
-              to={footerContact.phone}
+            <a
+              href={footerContact.url}
               rel="noopener noreferrer"
               target="_blank"
               className="fw-bold text-decoration-none text-main"
             >
               {footerContact.name}
-            </Link>
+            </a>
           </p>
         </div>
       </div>

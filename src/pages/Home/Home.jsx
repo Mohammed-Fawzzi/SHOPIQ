@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 
 export default function Home() {
   const [page, setPage] = useState(1);
-  const limit = 12;
+  const limit = 6;
   const totalPages = 5;
 
   const { data, isLoading, isError, error, isFetching } = useProducts(
@@ -40,6 +40,12 @@ export default function Home() {
       <CategorySlider />
 
       <div className="container py-5">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h3 className="fw-bold text-primary m-0 category-title">
+            Explore <span className="text-primary">Top Products</span>
+          </h3>
+        </div>
+
         <div className="row gy-4">
           {data?.map((product) => (
             <Product product={product} key={product._id} />

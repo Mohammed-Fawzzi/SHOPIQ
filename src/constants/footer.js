@@ -1,27 +1,31 @@
-export const socialLinks = [
+export const footerSocials = [
   {
-    path: "https://www.linkedin.com/in/mohamed-fawzzi98/",
-    icon: "fa-brands fa-linkedin fs-5 ps-4 cursor-pointer",
-    label: "LinkedIn",
+    id: 1,
+    icon: "fa-brands fa-telegram",
+    className: "telegram",
+    url: "https://t.me/MohamedFawzzi",
   },
   {
-    path: "https://github.com/Mohammed-Fawzzi",
-    icon: "fa-brands fa-github fs-5 ps-4 cursor-pointer",
-    label: "GitHub",
+    id: 2,
+    icon: "fa-brands fa-whatsapp",
+    className: "whatsapp",
+    url: "https://wa.me/+201021580334",
   },
   {
-    path: "https://www.facebook.com/mofawzzi14/",
-    icon: "fa-brands fa-facebook-f fs-5 ps-4 cursor-pointer",
-    label: "Facebook",
+    id: 3,
+    icon: "fa-brands fa-github",
+    className: "github",
+    url: "https://github.com/Mohammed-Fawzzi",
   },
   {
-    path: "https://x.com/muhammed_fawzzi",
-    icon: "fa-brands fa-x-twitter fs-5 ps-4 cursor-pointer",
-    label: "X",
+    id: 4,
+    icon: "fa-brands fa-linkedin",
+    className: "linkedIn",
+    url: "https://www.linkedin.com/in/mohamed-fawzzi98/",
   },
 ];
 
 export const footerContact = {
-  phone: "tel:+20121580334",
+  url: "https://www.mohamedfawzzi.site/en",
   name: "Mohamed Fawzzi.",
 };
