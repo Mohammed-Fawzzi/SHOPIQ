@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./index.css";
 import { QueryClient } from "react-query";
 import { QueryClientProvider } from "react-query";
-import UserContextProvider from "./Context/UserContext.jsx";
+import UserContextProvider from "@/context/UserContext.jsx";
 import { Toaster } from "react-hot-toast";
 
 let queryClient = new QueryClient();

@@ -3,7 +3,8 @@ import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // Base url And Token
-const baseUrl = `https://ecommerce.routemisr.com/api/v1`;
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const checkoutUrl = import.meta.env.VITE_CHECKOUT_URL;
 const token = localStorage.getItem("userToken");
 
 // Add Cart Data
@@ -65,7 +66,7 @@ export function updateCart({ productId, count }) {
 //checkout
 export function checkOut({ productId, shippingAddress }) {
   return axios.post(
-    `${baseUrl}/orders/checkout-session/${productId}?url=http://localhost:3000`,
+    `${baseUrl}/orders/checkout-session/${productId}?url=${checkoutUrl}`,
     { shippingAddress },
     {
       headers: {

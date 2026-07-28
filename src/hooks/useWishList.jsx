@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // Base url And Token
-const baseUrl = `https://ecommerce.routemisr.com/api/v1`;
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const token = localStorage.getItem("userToken");
 
 // Post Wish List Data

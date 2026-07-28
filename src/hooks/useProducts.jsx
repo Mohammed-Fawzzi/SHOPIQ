@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 // Get Featured Products with Pagination
 export function getFeaturedProducts(page = 1, limit = 12) {
-  const url = `https://ecommerce.routemisr.com/api/v1/products?limit=${limit}&page=${page}&sort=-price`;
+  const url = `${baseUrl}/products?limit=${limit}&page=${page}&sort=-price`;
   return axios.get(url);
 }
 
 // Get Product Details
 export function getProductDetails(productId) {
-  return axios.get(
-    `https://ecommerce.routemisr.com/api/v1/products/${productId}`
-  );
+  return axios.get(`${baseUrl}/products/${productId}`);
 }
 
 // Re-Use Function With Any Products

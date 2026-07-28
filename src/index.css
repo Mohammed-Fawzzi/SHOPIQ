@@ -169,6 +169,11 @@ nav .nav-logo {
   backdrop-filter: blur(35px);
 }
 
+.search-input {
+  max-width: 320px;
+  background-color: #f8f9fa;
+}
+
 .product .btn {
   transition: transform 1s, opacity 1s;
   transform: translateY(100%);
